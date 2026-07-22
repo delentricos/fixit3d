@@ -12,3 +12,17 @@ def root():
         "project": "FixIt3D",
         "status": "Backend running"
     }
+
+
+@app.get("/health")
+def health():
+    return {
+        "status": "healthy"
+    }
+
+
+@app.get("/version")
+def version():
+    return {
+        "version": "0.0.1"
+    }
