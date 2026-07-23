@@ -171,7 +171,7 @@ Frontend API Client
 
 ---
 
-# Next Mission
+# Current Mission
 
 MISSION 5.4
 
@@ -179,10 +179,16 @@ Frontend Dashboard
 
 Status:
 
-⏳ Pending
+⏳ In progress
 
 ---
+# Next Mission
 
+MISSION 5.5
+
+Plugin System Foundation
+
+---
 # Frozen Decisions
 
 Repository:
