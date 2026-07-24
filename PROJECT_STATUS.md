@@ -214,6 +214,12 @@ Status:
 IN PROGRESS
 ---
 
+# Next Mission
+
+MISSION 5.8
+
+Plugin Lifecycle Management
+
 # Frozen Decisions
 
 Repository:
