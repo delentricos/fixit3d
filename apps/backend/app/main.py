@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from plugins.registry import plugin_registry
+from plugins.models import PluginMetadata
 
 app = FastAPI(
     title="FixIt3D API",
@@ -27,10 +28,16 @@ def version():
     return {
         "version": "0.0.1"
     }
-    
+
+
 @app.get("/plugins")
 def plugins():
     return plugin_registry.list_plugins()
+
+
+@app.post("/plugins")
+def install_plugin(plugin: PluginMetadata):
+    return plugin_registry.install_plugin(plugin)
 
 
 @app.post("/plugins/{plugin_id}/enable")
@@ -55,12 +62,15 @@ def disable_plugin(plugin_id: str):
         }
 
     return plugin
-    
+
+
 @app.delete("/plugins/{plugin_id}")
 def remove_plugin(plugin_id: str):
     plugin = plugin_registry.remove_plugin(plugin_id)
 
     if plugin is None:
-        return {"error": "Plugin not found"}
+        return {
+            "error": "Plugin not found"
+        }
 
-    return plugin    
+    return plugin

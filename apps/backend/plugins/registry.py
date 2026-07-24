@@ -11,6 +11,11 @@ class PluginRegistry:
         self.plugins.append(plugin)
         self.storage.save_plugin(plugin)
 
+    def install_plugin(self, plugin: PluginMetadata):
+        self.register(plugin)
+
+        return plugin
+
     def list_plugins(self):
         return self.plugins
 
@@ -52,20 +57,3 @@ class PluginRegistry:
 
 
 plugin_registry = PluginRegistry()
-
-
-if not plugin_registry.get_plugin("test_plugin"):
-    plugin_registry.register(
-        PluginMetadata(
-            id="test_plugin",
-            name="Test Plugin",
-            version="1.0.0",
-            category="test",
-            status="active",
-            description="A test plugin for FixIt3D development.",
-            author="FixIt3D",
-            capabilities=[
-                "test_capability",
-            ],
-        )
-    )
