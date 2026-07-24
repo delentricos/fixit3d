@@ -11,6 +11,29 @@ class PluginRegistry:
     def list_plugins(self):
         return self.plugins
 
+    def get_plugin(self, plugin_id: str):
+        for plugin in self.plugins:
+            if plugin.id == plugin_id:
+                return plugin
+
+        return None
+
+    def enable_plugin(self, plugin_id: str):
+        plugin = self.get_plugin(plugin_id)
+
+        if plugin:
+            plugin.status = "active"
+
+        return plugin
+
+    def disable_plugin(self, plugin_id: str):
+        plugin = self.get_plugin(plugin_id)
+
+        if plugin:
+            plugin.status = "inactive"
+
+        return plugin
+
 
 plugin_registry = PluginRegistry()
 

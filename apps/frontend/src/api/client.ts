@@ -12,10 +12,30 @@ async function get<T>(path: string): Promise<T> {
   return response.json() as Promise<T>;
 }
 
+
+async function post<T>(path: string): Promise<T> {
+  const response = await fetch(path, {
+    method: "POST",
+  });
+
+  if (!response.ok) {
+    throw new Error(`Request to ${path} failed with status ${response.status}`);
+  }
+
+  return response.json() as Promise<T>;
+}
+
+
 export const api = {
   health: () => get("/api/health"),
 
   version: () => get("/api/version"),
 
   plugins: () => get("/api/plugins"),
+
+  enablePlugin: (pluginId: string) =>
+    post(`/api/plugins/${pluginId}/enable`),
+
+  disablePlugin: (pluginId: string) =>
+    post(`/api/plugins/${pluginId}/disable`),
 };

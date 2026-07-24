@@ -1,8 +1,37 @@
+import { api } from "../../../api/client";
+
 interface PluginActionsProps {
   pluginId: string;
+  onPluginChanged: () => void;
+}
+function PluginActions({
+  pluginId,
+  onPluginChanged,
+}: PluginActionsProps) {
+  async function handleEnable() {
+    try {
+      await api.enablePlugin(pluginId);
+
+      onPluginChanged();
+
+      console.log("Plugin enabled:", pluginId);
+    } catch (error) {
+      console.error("Enable failed:", error);
+    }
+  }
+
+  async function handleDisable() {
+  try {
+    await api.disablePlugin(pluginId);
+
+    onPluginChanged();
+
+    console.log("Plugin disabled:", pluginId);
+  } catch (error) {
+    console.error("Disable failed:", error);
+  }
 }
 
-function PluginActions({ pluginId }: PluginActionsProps) {
   return (
     <div
       style={{
@@ -19,11 +48,11 @@ function PluginActions({ pluginId }: PluginActionsProps) {
         Details
       </button>
 
-      <button
-        onClick={() => {
-          console.log("Disable plugin:", pluginId);
-        }}
-      >
+      <button onClick={handleEnable}>
+        Enable
+      </button>
+
+      <button onClick={handleDisable}>
         Disable
       </button>
     </div>

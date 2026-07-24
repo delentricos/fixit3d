@@ -35,6 +35,12 @@ function DashboardPage() {
     loadBackend();
   }, []);
 
+  async function refreshPlugins() {
+    const pluginData = await api.plugins();
+    setPlugins(pluginData);
+  }
+
+
   return (
     <main
       style={{
@@ -91,11 +97,12 @@ function DashboardPage() {
   }}
 >
   {plugins.map((plugin) => (
-    <PluginCard
-      key={plugin.id}
-      plugin={plugin}
-    />
-  ))}
+  <PluginCard
+    key={plugin.id}
+    plugin={plugin}
+    onPluginChanged={refreshPlugins}
+  />
+))}
 </div>
       </div>
     </main>

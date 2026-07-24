@@ -3,9 +3,10 @@ import PluginActions from "./PluginActions";
 
 interface PluginCardProps {
   plugin: Plugin;
+  onPluginChanged: () => void;
 }
 
-function PluginCard({ plugin }: PluginCardProps) {
+function PluginCard({ plugin, onPluginChanged }: PluginCardProps) {
   const isActive = plugin.status === "active";
 
   return (
@@ -68,7 +69,10 @@ function PluginCard({ plugin }: PluginCardProps) {
           {isActive ? "🟢 Active" : "🔴 Inactive"}
         </span>
       </p>
-      <PluginActions pluginId={plugin.id} />
+      <PluginActions
+  pluginId={plugin.id}
+  onPluginChanged={onPluginChanged}
+/>
     </div>
   );
 }
