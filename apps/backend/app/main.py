@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from plugins.registry import plugin_registry
 
 app = FastAPI(
     title="FixIt3D API",
@@ -26,3 +27,7 @@ def version():
     return {
         "version": "0.0.1"
     }
+    
+@app.get("/plugins")
+def plugins():
+    return plugin_registry.list_plugins()    

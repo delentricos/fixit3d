@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { api } from "../../api/client";
 import StatusCard from "./components/StatusCard";
+import PluginCard from "../plugins/components/PluginCard";
+import { Plugin } from "../plugins/types";
 
 type BackendStatus = "checking" | "connected" | "disconnected";
 
@@ -9,6 +11,8 @@ function DashboardPage() {
     useState<BackendStatus>("checking");
 
   const [version, setVersion] = useState("Loading...");
+
+  const [plugins, setPlugins] = useState<Plugin[]>([]);
 
   useEffect(() => {
     async function loadBackend() {
@@ -19,6 +23,9 @@ function DashboardPage() {
 
         const data = await api.version();
         setVersion(data.version);
+
+        const pluginData = await api.plugins();
+        setPlugins(pluginData);
 
       } catch {
         setStatus("disconnected");
@@ -64,11 +71,32 @@ function DashboardPage() {
           status="neutral"
         />
 
-        <StatusCard
+                <StatusCard
           title="AI Engine"
           value="Ready"
           status="neutral"
         />
+      </div>
+
+      <div
+        style={{
+          marginTop: "2rem",
+        }}
+      >
+        <h2>Plugins</h2>
+
+        <div
+  style={{
+    marginTop: "1rem",
+  }}
+>
+  {plugins.map((plugin) => (
+    <PluginCard
+      key={plugin.id}
+      plugin={plugin}
+    />
+  ))}
+</div>
       </div>
     </main>
   );

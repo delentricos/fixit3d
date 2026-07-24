@@ -13,9 +13,9 @@ async function get<T>(path: string): Promise<T> {
 }
 
 export const api = {
-  // GET /api/health -> backend GET /health
   health: () => get("/api/health"),
 
-  // GET /api/version -> backend GET /version
   version: () => get("/api/version"),
+
+  plugins: () => get("/api/plugins"),
 };
