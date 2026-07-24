@@ -1,6 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from plugins.registry import plugin_registry
 from plugins.models import PluginMetadata
+from plugins.validator import plugin_validator
 
 app = FastAPI(
     title="FixIt3D API",
@@ -37,6 +38,15 @@ def plugins():
 
 @app.post("/plugins")
 def install_plugin(plugin: PluginMetadata):
+
+    valid, message = plugin_validator.validate(plugin)
+
+    if not valid:
+        raise HTTPException(
+            status_code=400,
+            detail=message
+        )
+
     return plugin_registry.install_plugin(plugin)
 
 
