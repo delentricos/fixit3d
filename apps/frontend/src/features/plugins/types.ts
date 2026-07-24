@@ -4,4 +4,9 @@ export interface Plugin {
   version: string;
   category: string;
   status: string;
+
+  description: string;
+  author: string;
+
+  capabilities: string[];
 }

@@ -21,5 +21,10 @@ plugin_registry.register(
         version="1.0.0",
         category="test",
         status="active",
+        description="A test plugin for FixIt3D development.",
+        author="FixIt3D",
+        capabilities=[
+            "test_capability",
+        ],
     )
 )

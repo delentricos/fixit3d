@@ -1,4 +1,5 @@
 import { Plugin } from "../types";
+import PluginActions from "./PluginActions";
 
 interface PluginCardProps {
   plugin: Plugin;
@@ -13,7 +14,7 @@ function PluginCard({ plugin }: PluginCardProps) {
         border: "1px solid #d1d5db",
         borderRadius: "12px",
         padding: "1rem",
-        width: "300px",
+        width: "320px",
         backgroundColor: "#ffffff",
         boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
       }}
@@ -21,7 +22,6 @@ function PluginCard({ plugin }: PluginCardProps) {
       <h3
         style={{
           marginTop: 0,
-          marginBottom: "1rem",
         }}
       >
         {plugin.name}
@@ -36,6 +36,28 @@ function PluginCard({ plugin }: PluginCardProps) {
       </p>
 
       <p>
+        <strong>Description:</strong>{" "}
+        {plugin.description}
+      </p>
+
+      <p>
+        <strong>Author:</strong>{" "}
+        {plugin.author}
+      </p>
+
+      <div>
+        <strong>Capabilities:</strong>
+
+        <ul>
+          {plugin.capabilities.map((capability) => (
+            <li key={capability}>
+              {capability}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <p>
         <strong>Status:</strong>{" "}
         <span
           style={{
@@ -46,6 +68,7 @@ function PluginCard({ plugin }: PluginCardProps) {
           {isActive ? "🟢 Active" : "🔴 Inactive"}
         </span>
       </p>
+      <PluginActions pluginId={plugin.id} />
     </div>
   );
 }

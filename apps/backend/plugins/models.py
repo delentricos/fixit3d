@@ -7,3 +7,8 @@ class PluginMetadata(BaseModel):
     version: str
     category: str
     status: str
+
+    description: str
+    author: str
+
+    capabilities: list[str]
