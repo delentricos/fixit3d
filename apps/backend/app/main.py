@@ -55,3 +55,12 @@ def disable_plugin(plugin_id: str):
         }
 
     return plugin
+    
+@app.delete("/plugins/{plugin_id}")
+def remove_plugin(plugin_id: str):
+    plugin = plugin_registry.remove_plugin(plugin_id)
+
+    if plugin is None:
+        return {"error": "Plugin not found"}
+
+    return plugin    

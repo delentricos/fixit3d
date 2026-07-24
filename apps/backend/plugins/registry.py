@@ -39,6 +39,17 @@ class PluginRegistry:
 
         return plugin
 
+    def remove_plugin(self, plugin_id: str):
+        plugin = self.get_plugin(plugin_id)
+
+        if not plugin:
+            return None
+
+        self.plugins.remove(plugin)
+        self.storage.delete_plugin(plugin_id)
+
+        return plugin
+
 
 plugin_registry = PluginRegistry()
 

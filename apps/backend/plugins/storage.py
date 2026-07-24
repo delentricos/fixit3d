@@ -15,7 +15,6 @@ class PluginStorage:
 
         self.create_table()
 
-
     def create_table(self):
         cursor = self.connection.cursor()
 
@@ -35,7 +34,6 @@ class PluginStorage:
         )
 
         self.connection.commit()
-
 
     def save_plugin(self, plugin: PluginMetadata):
         cursor = self.connection.cursor()
@@ -69,7 +67,6 @@ class PluginStorage:
 
         self.connection.commit()
 
-
     def get_plugins(self):
         cursor = self.connection.cursor()
 
@@ -96,3 +93,13 @@ class PluginStorage:
             )
 
         return plugins
+
+    def delete_plugin(self, plugin_id: str):
+        cursor = self.connection.cursor()
+
+        cursor.execute(
+            "DELETE FROM plugins WHERE id = ?",
+            (plugin_id,),
+        )
+
+        self.connection.commit()
