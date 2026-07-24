@@ -1,12 +1,15 @@
 from .models import PluginMetadata
+from .storage import PluginStorage
 
 
 class PluginRegistry:
     def __init__(self):
-        self.plugins: list[PluginMetadata] = []
+        self.storage = PluginStorage()
+        self.plugins: list[PluginMetadata] = self.storage.get_plugins()
 
     def register(self, plugin: PluginMetadata):
         self.plugins.append(plugin)
+        self.storage.save_plugin(plugin)
 
     def list_plugins(self):
         return self.plugins
@@ -23,6 +26,7 @@ class PluginRegistry:
 
         if plugin:
             plugin.status = "active"
+            self.storage.save_plugin(plugin)
 
         return plugin
 
@@ -31,23 +35,26 @@ class PluginRegistry:
 
         if plugin:
             plugin.status = "inactive"
+            self.storage.save_plugin(plugin)
 
         return plugin
 
 
 plugin_registry = PluginRegistry()
 
-plugin_registry.register(
-    PluginMetadata(
-        id="test_plugin",
-        name="Test Plugin",
-        version="1.0.0",
-        category="test",
-        status="active",
-        description="A test plugin for FixIt3D development.",
-        author="FixIt3D",
-        capabilities=[
-            "test_capability",
-        ],
+
+if not plugin_registry.get_plugin("test_plugin"):
+    plugin_registry.register(
+        PluginMetadata(
+            id="test_plugin",
+            name="Test Plugin",
+            version="1.0.0",
+            category="test",
+            status="active",
+            description="A test plugin for FixIt3D development.",
+            author="FixIt3D",
+            capabilities=[
+                "test_capability",
+            ],
+        )
     )
-)
