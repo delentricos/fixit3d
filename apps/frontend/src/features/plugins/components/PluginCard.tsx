@@ -1,78 +1,79 @@
+import { useState } from "react";
 import { Plugin } from "../types";
 import PluginActions from "./PluginActions";
 
 interface PluginCardProps {
   plugin: Plugin;
   onPluginChanged: () => void;
+  onPluginDetails: (plugin: Plugin) => void;
 }
 
-function PluginCard({ plugin, onPluginChanged }: PluginCardProps) {
+function PluginCard({ plugin, onPluginChanged, onPluginDetails }: PluginCardProps) {
   const isActive = plugin.status === "active";
+  const [hovered, setHovered] = useState(false);
 
   return (
     <div
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
       style={{
-        border: "1px solid #d1d5db",
-        borderRadius: "12px",
-        padding: "1rem",
-        width: "320px",
-        backgroundColor: "#ffffff",
-        boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
+        display: "flex",
+        alignItems: "center",
+        gap: "7px",
+        width: "100%",
+        boxSizing: "border-box",
+        padding: "6px 8px",
+        borderRadius: "5px",
+        marginBottom: "2px",
+        background: hovered ? "#1a2028" : "transparent",
+        border: "1px solid transparent",
       }}
     >
-      <h3
+      <span
         style={{
-          marginTop: 0,
+          width: "17px",
+          color: "#788494",
+          fontSize: "13px",
+          lineHeight: 1,
+          textAlign: "center",
+          flexShrink: 0,
         }}
       >
-        {plugin.name}
-      </h3>
+        ▣
+      </span>
 
-      <p>
-        <strong>Version:</strong> {plugin.version}
-      </p>
-
-      <p>
-        <strong>Category:</strong> {plugin.category}
-      </p>
-
-      <p>
-        <strong>Description:</strong>{" "}
-        {plugin.description}
-      </p>
-
-      <p>
-        <strong>Author:</strong>{" "}
-        {plugin.author}
-      </p>
-
-      <div>
-        <strong>Capabilities:</strong>
-
-        <ul>
-          {plugin.capabilities.map((capability) => (
-            <li key={capability}>
-              {capability}
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <p>
-        <strong>Status:</strong>{" "}
-        <span
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div
           style={{
-            color: isActive ? "green" : "red",
-            fontWeight: "bold",
+            fontSize: "13px",
+            fontWeight: 450,
+            color: "#c3cad4",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
           }}
         >
-          {isActive ? "🟢 Active" : "🔴 Inactive"}
-        </span>
-      </p>
+          {plugin.name}
+        </div>
+
+        <div
+          style={{
+            fontSize: "10px",
+            color: "#7f8998",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+          }}
+        >
+          v{plugin.version} • {isActive ? "Active" : "Inactive"}
+        </div>
+      </div>
+
       <PluginActions
-  pluginId={plugin.id}
-  onPluginChanged={onPluginChanged}
-/>
+        plugin={plugin}
+        onPluginChanged={onPluginChanged}
+        onPluginDetails={onPluginDetails}
+      />
     </div>
   );
 }

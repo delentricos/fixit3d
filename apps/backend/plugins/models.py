@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from .interfaces import PluginConnection
 
 
 class PluginMetadata(BaseModel):
@@ -12,3 +13,4 @@ class PluginMetadata(BaseModel):
     author: str
 
     capabilities: list[str]
+    connections: list[PluginConnection] = []

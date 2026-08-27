@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { api } from "../../api/client";
 import StatusCard from "./components/StatusCard";
 import PluginCard from "../plugins/components/PluginCard";
+import PluginDetailsModal from "../plugins/components/PluginDetailsModal";
 import { Plugin } from "../plugins/types";
+import PartsViewer3D from "../viewer/PartsViewer3D";
 
 type BackendStatus = "checking" | "connected" | "disconnected";
 
@@ -13,6 +15,8 @@ function DashboardPage() {
   const [version, setVersion] = useState("Loading...");
 
   const [plugins, setPlugins] = useState<Plugin[]>([]);
+  const [parts, setParts] = useState<any[]>([]);
+  const [selectedPlugin, setSelectedPlugin] = useState<Plugin | null>(null);
 
   useEffect(() => {
     async function loadBackend() {
@@ -26,6 +30,9 @@ function DashboardPage() {
 
         const pluginData = await api.plugins();
         setPlugins(pluginData);
+
+        const partData = await api.parts();
+        setParts(partData.parts);
 
       } catch {
         setStatus("disconnected");
@@ -84,6 +91,8 @@ function DashboardPage() {
         />
       </div>
 
+      <PartsViewer3D parts={parts} />
+
       <div
         style={{
           marginTop: "2rem",
@@ -101,10 +110,18 @@ function DashboardPage() {
     key={plugin.id}
     plugin={plugin}
     onPluginChanged={refreshPlugins}
+    onPluginDetails={setSelectedPlugin}
   />
 ))}
 </div>
       </div>
+
+      {selectedPlugin && (
+        <PluginDetailsModal
+          plugin={selectedPlugin}
+          onClose={() => setSelectedPlugin(null)}
+        />
+      )}
     </main>
   );
 }
